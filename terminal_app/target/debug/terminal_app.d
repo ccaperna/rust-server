@@ -1,1 +1,1 @@
-C:\Users\utente\rust\basics\rust-course\terminal_app\target\debug\terminal_app.exe: C:\Users\utente\rust\basics\rust-course\terminal_app\src\main.rs
+/home/claudia/rust/rust-course/terminal_app/target/debug/terminal_app: /home/claudia/rust/rust-course/terminal_app/src/main.rs
