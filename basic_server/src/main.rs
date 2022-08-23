@@ -51,7 +51,7 @@ struct Request {
 enum Method {
 
     GET(String),
-    DELETE(uint64),
+    DELETE(i64),
     POST,
     PUT,
     HEAD,
