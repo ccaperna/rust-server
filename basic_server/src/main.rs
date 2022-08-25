@@ -16,31 +16,34 @@ fn main() {
     let delete = Method::DELETE(10);
 
     //new is an associated function
-    let server = Server::new("127.0.0.1:8080".to_string());
+    let server = server::Server::new("127.0.0.1:8080".to_string());
     server.run();
 }
 
-struct Server {
-    address: String,
-}
+//modules are private by default
+mod server {
 
-impl Server {
+    pub struct Server {
+        address: String,
+    }
 
-    fn new(address: String) -> Self {
+    impl Server {
 
-        Self {
-            address
+        pub fn new(address: String) -> Self {
+
+            Self {
+                address
+            }
+        }
+
+        //this func takes ownership beacuse we don't pass a reference
+        pub fn run(self) {
+
+            println!("Listening on {}", self.address);
+
         }
     }
-
-    //this func takes ownership beacuse we don't pass a reference
-    fn run(self) {
-
-        println!("Listening on {}", self.address);
-
-    }
 }
-
 struct Request {
 
     path: String,
