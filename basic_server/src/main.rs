@@ -1,4 +1,10 @@
+use server::Server;
+//use http::request::Request;
+use http::Request;
+use http::method::Method;
 
+mod server;
+mod http;
 
 fn main() {
     println!("Hello, server!");
@@ -16,50 +22,19 @@ fn main() {
     let delete = Method::DELETE(10);
 
     //new is an associated function
-    let server = server::Server::new("127.0.0.1:8080".to_string());
+    let server = Server::new("127.0.0.1:8080".to_string());
     server.run();
 }
 
-//modules are private by default
-mod server {
 
-    pub struct Server {
-        address: String,
+/*
+code before splitting
+mod http {
+    //submodule
+    pub mod request {
     }
-
-    impl Server {
-
-        pub fn new(address: String) -> Self {
-
-            Self {
-                address
-            }
-        }
-
-        //this func takes ownership beacuse we don't pass a reference
-        pub fn run(self) {
-
-            println!("Listening on {}", self.address);
-
-        }
+    pub mod method{
+    
     }
 }
-struct Request {
-
-    path: String,
-    query: String,
-    method: Method,
-}
-
-enum Method {
-
-    GET(String),
-    DELETE(i64),
-    POST,
-    PUT,
-    HEAD,
-    CONNECT,
-    OPTIONS,
-    TRACE,
-    PATCH,
-}
+*/

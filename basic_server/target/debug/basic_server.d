@@ -1,1 +1,1 @@
-/home/ccaperna/rust/rust-course/basic_server/target/debug/basic_server: /home/ccaperna/rust/rust-course/basic_server/src/main.rs
+/home/ccaperna/rust/rust-course/basic_server/target/debug/basic_server: /home/ccaperna/rust/rust-course/basic_server/src/http/method.rs /home/ccaperna/rust/rust-course/basic_server/src/http/mod.rs /home/ccaperna/rust/rust-course/basic_server/src/http/request.rs /home/ccaperna/rust/rust-course/basic_server/src/main.rs /home/ccaperna/rust/rust-course/basic_server/src/server.rs
