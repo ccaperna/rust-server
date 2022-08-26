@@ -1,4 +1,5 @@
 //modules are private by default
+use::std::net::TcpListener;
 
 pub struct Server {
     address: String,
@@ -18,5 +19,6 @@ impl Server {
 
         println!("Listening on {}", self.address);
 
+        let listener = TcpListener::bind(&self.address);
     }
 }
