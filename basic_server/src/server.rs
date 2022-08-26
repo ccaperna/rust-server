@@ -19,6 +19,6 @@ impl Server {
 
         println!("Listening on {}", self.address);
 
-        let listener = TcpListener::bind(&self.address);
+        let listener = TcpListener::bind(&self.address).unwrap();
     }
 }
