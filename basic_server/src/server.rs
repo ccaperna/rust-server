@@ -1,5 +1,6 @@
 //modules are private by default
 use::std::net::TcpListener;
+use::std::io::Read;
 
 pub struct Server {
     address: String,
@@ -34,9 +35,20 @@ impl Server {
 
         loop {
             match listener.accept() {
-                Ok((stream, sock_addr)) => {
+                Ok((mut stream, sock_addr)) => {
                     //do something
-                    println!("OK");
+                    println!("Receiving stream of bytes on socket: {}", sock_addr);
+                    //buffer for storing incoming bytes
+                    let mut buffer = [0; 1024];
+                    match stream.read(&mut buffer){
+                        Ok(_) => {
+
+                            println!("Received a request: {}", String::from_utf8_lossy(&mut buffer));
+
+                        }
+                        Err(e) => println!("Failed to read from connection: {}", e),
+                    }
+
                 },
 
                 Err(e) => println!("Failed to establish connection: {}", e),
