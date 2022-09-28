@@ -1,5 +1,8 @@
 //modules are private by default
+//crate = root
+use crate::http::Request;
 use::std::net::TcpListener;
+use::std::convert::TryFrom;
 use::std::io::Read;
 
 pub struct Server {
@@ -44,6 +47,16 @@ impl Server {
                         Ok(_) => {
 
                             println!("Received a request: {}", String::from_utf8_lossy(&mut buffer));
+
+                            //Request::try_from(&buffer as &[u8]);
+                            match Request::try_from(&buffer[..]) {  //same thing as above
+
+                                //let res: &Result<Request, _> = &buffer[::].try_into();
+                                Ok(request) => {},
+                                Err(e) => println!("Failed to parse  a request: {}", e),
+
+                            }
+                        
 
                         }
                         Err(e) => println!("Failed to read from connection: {}", e),
