@@ -18,8 +18,8 @@ fn main() {
     dbg!(&slice);
     */
 
-    let get = Method::GET("abcd".to_string());
-    let delete = Method::DELETE(10);
+    //let get = Method::GET("abcd".to_string());
+    //let delete = Method::DELETE(10);
 
     //new is an associated function
     let server = Server::new("127.0.0.1:8080".to_string());

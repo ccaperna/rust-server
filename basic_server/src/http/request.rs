@@ -1,6 +1,6 @@
 
 //import Method enum from http module
-use super::method::Method;
+use super::method::{Method, MethodError};
 use std::convert::TryFrom;
 use::std::error::Error;
 use::std::fmt::{Result as FmtResult, Display, Formatter, Debug};
@@ -56,6 +56,8 @@ impl TryFrom<&[u8]> for Request {
             return Err(ParseError::InvalidProtocol);
         }
 
+        let method: Method = method.parse()?;
+
         unimplemented!()
 
     }
@@ -106,6 +108,13 @@ impl ParseError {
             Self::InvalidProtocol=> "Invalid protocol",
             Self::InvalidMethod=> "Invalid method",
         }
+    }
+}
+
+impl From<MethodError> for ParseError {
+
+    fn from(_: MethodError) -> Self {
+        Self::InvalidMethod
     }
 }
 
