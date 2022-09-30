@@ -8,40 +8,32 @@ use::std::str;
 use::std::str::Utf8Error;
 
 
-pub struct Request {
+pub struct Request<'buf> {
 
-    path: String,
-    query: String,
+    path: &'buf str,
+    query_string: Option<&'buf str>,
     method: Method,
 }
 
-impl Request {
-
-
-}
-
 //trait implementation
-impl TryFrom<&[u8]> for Request {
+impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
 
     type Error = ParseError;
 
     // GET /search?name=abc&sort=1 HTTP/1.1\r\n... HEADERS
-    fn try_from(buf: &[u8]) -> Result<Self, Self::Error> {
+    fn try_from (buf: &'buf [u8]) -> Result<Request<'buf>, Self::Error> {
 
         /*
         match str::from_utf8(buf) {
             Ok(request) => {},
             Err(_) => return Err(ParseError::InvalidEncoding),
         }
-        
-
         //same thing as above
         match str::from_utf8(buf).or(Err(ParseError::InvalidEncoding)) {
             Ok(request) => {},
             Err(e) => return Err(e),
         }
         */
-
         //same thing again
         //let request = str::from_utf8(buf).or(Err(ParseError::InvalidEncoding))?;
 
@@ -49,7 +41,7 @@ impl TryFrom<&[u8]> for Request {
 
         //variable shadowing (overriding)
         let (method, request) = get_next_word(request).ok_or(ParseError::Invalidrequest)?;
-        let (path, request) = get_next_word(request).ok_or(ParseError::Invalidrequest)?;
+        let (mut path, request) = get_next_word(request).ok_or(ParseError::Invalidrequest)?;
         let (protocol, _) = get_next_word(request).ok_or(ParseError::Invalidrequest)?;
 
         if protocol != "HTTP/1.1" {
@@ -58,8 +50,19 @@ impl TryFrom<&[u8]> for Request {
 
         let method: Method = method.parse()?;
 
-        unimplemented!()
+        let mut query_string = None;
 
+        
+        if let Some(i) = path.find('?') {
+            query_string = Some(&path[i + 1..]);
+            path = &path[..i];
+        }
+
+        Ok(Self{
+            path,
+            query_string,
+            method,
+        })
     }
 }
 
