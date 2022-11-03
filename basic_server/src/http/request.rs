@@ -8,7 +8,8 @@ use::std::str;
 use::std::str::Utf8Error;
 use super::QueryString;
 
-
+//extend debug trait implementation for all struct fields
+#[derive(Debug)]
 pub struct Request<'buf> {
 
     path: &'buf str,
