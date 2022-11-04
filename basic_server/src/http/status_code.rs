@@ -25,3 +25,4 @@ impl Display for StatusCode {
         write!(f, "{}", *self as u16)
     }
 }
+

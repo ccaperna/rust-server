@@ -1,9 +1,9 @@
 //modules are private by default
 //crate = root
-use crate::http::Request;
+use crate::http::{Request, Response, StatusCode};
 use::std::net::TcpListener;
 use::std::convert::TryFrom;
-use::std::io::Read;
+use::std::io::{Read, Write};
 
 pub struct Server {
     address: String,
@@ -49,14 +49,25 @@ impl Server {
                             println!("Received a request: {}", String::from_utf8_lossy(&mut buffer));
 
                             //Request::try_from(&buffer as &[u8]);
-                            match Request::try_from(&buffer[..]) {  //same thing as above
+                           let response =  match Request::try_from(&buffer[..]) {  //same thing as above
 
                                 //let res: &Result<Request, _> = &buffer[::].try_into();
                                 Ok(request) => {
                                     dbg!(request);
-                                },
-                                Err(e) => println!("Failed to parse  a request: {}", e),
+                                    Response::new(
+                                        StatusCode::Ok, 
+                                        Some("<h1> IT WORKS!</h1>".to_string()))
 
+                                },
+                                Err(e) => {
+                                    println!("Failed to parse  a request: {}", e);
+                                    Response::new(StatusCode::BadRequest,None)
+                                }
+
+                            };
+
+                            if let Err(e) = response.send(&mut stream) {
+                                println!("Failed to send response: {}", e);
                             }
                         
 
