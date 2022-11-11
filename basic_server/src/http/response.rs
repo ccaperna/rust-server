@@ -17,7 +17,7 @@ impl Response {
     }
 
     //returns IoResult with no data
-    pub fn send(&self, stream: &mut TcpStream) -> IoResult<()> {
+    pub fn send(&self, stream: &mut impl Write) -> IoResult<()> {
 
         let body = match &self.body{
 

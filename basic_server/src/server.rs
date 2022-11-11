@@ -1,10 +1,19 @@
 //modules are private by default
 //crate = root
-use crate::http::{Request, Response, StatusCode};
+use crate::http::{Request, Response, StatusCode, ParseError};
 use::std::net::TcpListener;
 use::std::convert::TryFrom;
 use::std::io::{Read, Write};
 
+
+pub trait Handler {
+    fn handle_request(&mut self, request: &Request) -> Response;
+    fn handle_bad_request(&mut self, e: &ParseError) -> Response {
+        println!("Failed to parse request {}", e);
+        Response::new(StatusCode::BadRequest, None)
+    }
+
+}
 pub struct Server {
     address: String,
 }
@@ -19,8 +28,7 @@ impl Server {
     }
 
     //this func takes ownership beacuse we don't pass a reference
-    pub fn run(self) {
-
+    pub fn run(self, mut handler: impl Handler) {
         println!("Listening on {}", self.address);
 
         //unwrap will terminate the program in case of error
