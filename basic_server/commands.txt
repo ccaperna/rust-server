@@ -1,0 +1,4 @@
+USEFUL COMMANDS
+
+output the expanded code in vs code
+cargo expand | code -
